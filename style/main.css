@@ -17,6 +17,36 @@ body {
 	background: url( '../media/background.png' );
 }
 
+.button {
+  background: url('../media/gui-off.png');
+  border: none;
+  color: white;
+  width: 600px;
+  height: 60px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 24px;
+  font-family: minecraftia;
+  src: url( 'minecraftia.ttf' );
+  background-size: cover;
+}
+
+.button:hover {
+  background: url('../media/gui-on.png');
+  border: none;
+  color: white;
+  width: 600px;
+  height: 60px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 24px;
+  font-family: minecraftia;
+  src: url( 'minecraftia.ttf' );
+  background-size: cover;
+}
+
 /* Render surface */
 
 #renderSurface {
@@ -28,7 +58,7 @@ body {
 	height: 100%;
 }
 
-/* Material selector */
+/* Material selector
 
 #materialSelector {
 	position: relative;
@@ -56,6 +86,36 @@ body {
 
 #materialSelector td:hover {
 	opacity: 0.8;
+}
+
+*/
+
+/* Material selector */
+
+#materialSelector {
+	position: relative;
+	background: rgba( 0, 0, 0, 0.6 );
+}
+
+#materialSelector tr {
+	height: 48px;
+}
+
+#materialSelector td {
+	width: 48px;
+	margin: 0;
+	padding: 0;
+
+	cursor: pointer;
+
+	opacity: 0.5;
+
+	background: url( '../media/inventory.png' );
+	background-position: 0px 0px;
+}
+
+#materialSelector td:hover {
+	opacity: 1.0;
 }
 
 /* Username input */
