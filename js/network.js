@@ -263,7 +263,7 @@ function Server( socketio, slots )
 	this.maxSlots = slots;
 	this.usedSlots = 0;
 
-	this.oneUserPerIp = true;
+	this.oneUserPerIp = false;
 
     http.listen(3000, function() {});
 }
@@ -290,9 +290,9 @@ Server.prototype.setLogger = function( fn )
 //
 // Enable/disable the one user per ip rule.
 
-Server.prototype.setOneUserPerIp = function( enabled )
+Server.prototype.setOneUserPerIp = function( disabled )
 {
-	this.oneUserPerIp = enabled;
+	this.oneUserPerIp = disabled;
 }
 
 // on( event, callback )
@@ -382,13 +382,6 @@ Server.prototype.onConnection = function( socket )
 	// Check if a slot limit is active
 	if ( this.maxSlots != null && this.usedSlots == this.maxSlots ) {
 		this.kick( socket, "The server is full!" );
-		return;
-	}
-
-	// Prevent people from blocking the server with multiple open clients
-	if ( this.activeAddresses[this.getIp(socket)] && this.oneUserPerIp )
-	{
-		this.kick( socket, "Multiple clients connecting from the same IP address!" );
 		return;
 	}
 	this.activeAddresses[this.getIp(socket)] = true;
@@ -497,7 +490,7 @@ Server.prototype.onBlockUpdate = function( socket, data )
 
 	if ( typeof( data.x ) != "number" || typeof( data.y ) != "number" || typeof( data.z ) != "number" || typeof( data.mat ) != "number" ) return false;
 	if ( data.x < 0 || data.y < 0 || data.z < 0 || data.x >= world.sx || data.y >= world.sy || data.z >= world.sz ) return false;
-	if ( Math.sqrt( (data.x-world.spawnPoint.x)*(data.x-world.spawnPoint.x) + (data.y-world.spawnPoint.y)*(data.y-world.spawnPoint.y) + (data.z-world.spawnPoint.z)*(data.z-world.spawnPoint.z)  ) < 10 ) return false;
+	if ( Math.sqrt( (data.x-world.spawnPoint.x)*(data.x-world.spawnPoint.x) + (data.y-world.spawnPoint.y)*(data.y-world.spawnPoint.y) + (data.z-world.spawnPoint.z)*(data.z-world.spawnPoint.z)  ) < 2 ) return false;
 
 	var material = BLOCK.fromId( data.mat );
 	if ( material == null || ( !material.spawnable && data.mat != 0 ) ) return false;

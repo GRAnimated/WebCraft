@@ -22,14 +22,6 @@ BLOCK.AIR = {
 	transparent: true
 };
 
-// Bedrock
-BLOCK.BEDROCK = {
-	id: 1,
-	spawnable: false,
-	transparent: false,
-	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 1/16, 1/16, 2/16, 2/16 ]; }
-};
-
 // Dirt
 BLOCK.DIRT = {
 	id: 2,
@@ -100,15 +92,15 @@ BLOCK.BOOKCASE = {
 	}
 };
 
-// Lava
-BLOCK.LAVA = {
+// Bedrock
+BLOCK.BEDROCK = {
 	id: 6,
-	spawnable: false,
-	transparent: true,
-	selflit: true,
-	gravity: true,
-	fluid: true,
-	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 13/16, 14/16, 14/16, 15/16 ]; }
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 1/16, 1/16, 2/16, 2/16 ]; }
 };
 
 // Plank
@@ -241,6 +233,434 @@ BLOCK.SPONGE = {
 	gravity: false,
 	fluid: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 0/16, 3/16, 1/16, 4/16 ]; }
+};
+
+// Crafting Table
+BLOCK.CRAFTTABLE = {
+	id: 19,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir )
+	{
+		if ( dir == DIRECTION.FORWARD || dir == DIRECTION.BACK )
+			return [ 11/16, 3/16, 12/16, 4/16 ];
+		if ( dir == DIRECTION.UP )
+			return [ 11/16, 2/16, 12/16, 3/16 ];
+		else
+			return [ 12/16, 3/16, 13/16, 4/16 ];
+	}
+};
+
+// Furnace
+BLOCK.FURNACE = {
+	id: 20,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir )
+	{
+		if ( dir == DIRECTION.FORWARD )
+			return [ 12/16, 2/16, 13/16, 3/16 ];
+		if ( dir == DIRECTION.UP )
+			return [ 14/16, 3/16, 15/16, 4/16 ];
+		else
+			return [ 13/16, 2/16, 14/16, 3/16 ];
+	}
+};
+
+// Wool
+BLOCK.WOOL1 = {
+	id: 21,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 0/16, 4/16, 1/16, 5/16 ]; }
+};
+
+// Wool
+BLOCK.WOOL2 = {
+	id: 22,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 1/16, 4/16, 2/16, 5/16 ]; }
+};
+
+// Wool
+BLOCK.WOOL3 = {
+	id: 23,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 2/16, 4/16, 3/16, 5/16 ]; }
+};
+
+// Wool
+BLOCK.WOOL4 = {
+	id: 24,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 3/16, 4/16, 4/16, 5/16 ]; }
+};
+
+// Wool
+BLOCK.WOOL5 = {
+	id: 25,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 4/16, 4/16, 5/16, 5/16 ]; }
+};
+
+// Wool
+BLOCK.WOOL6 = {
+	id: 26,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 5/16, 4/16, 6/16, 5/16 ]; }
+};
+
+// Wool
+BLOCK.WOOL7 = {
+	id: 27,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 6/16, 4/16, 7/16, 5/16 ]; }
+};
+
+// Wool
+BLOCK.WOOL8 = {
+	id: 28,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 7/16, 4/16, 8/16, 5/16 ]; }
+};
+
+// Wool
+BLOCK.WOOL9 = {
+	id: 29,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 8/16, 4/16, 9/16, 5/16 ]; }
+};
+
+// Wool
+BLOCK.WOOL10 = {
+	id: 30,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 9/16, 4/16, 10/16, 5/16 ]; }
+};
+
+// Wool
+BLOCK.WOOL11 = {
+	id: 31,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 10/16, 4/16, 11/16, 5/16 ]; }
+};
+
+// Wool
+BLOCK.WOOL12 = {
+	id: 32,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 11/16, 4/16, 12/16, 5/16 ]; }
+};
+
+// Wool
+BLOCK.WOOL13 = {
+	id: 33,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 12/16, 4/16, 13/16, 5/16 ]; }
+};
+
+// Wool
+BLOCK.WOOL14 = {
+	id: 34,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 13/16, 4/16, 14/16, 5/16 ]; }
+};
+
+// Wool
+BLOCK.WOOL15 = {
+	id: 35,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 14/16, 4/16, 15/16, 5/16 ]; }
+};
+
+// Wool
+BLOCK.WOOL16 = {
+	id: 36,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 15/16, 4/16, 16/16, 5/16 ]; }
+};
+
+// Stone Brick
+BLOCK.SBRICK = {
+	id: 37,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 3/16, 6/16, 4/16, 7/16 ]; }
+};
+
+// Stone Brick 2
+BLOCK.SBRICK2 = {
+	id: 38,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 4/16, 6/16, 5/16, 7/16 ]; }
+};
+
+// Stone Brick 3
+BLOCK.SBRICK3 = {
+	id: 39,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 5/16, 6/16, 6/16, 7/16 ]; }
+};
+
+// Stone Brick 4
+BLOCK.SBRICK4 = {
+	id: 40,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 5/16, 13/16, 6/16, 14/16 ]; }
+};
+
+// Wool
+BLOCK.PUMPKIN = {
+	id: 41,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir )
+	{
+		if ( dir == DIRECTION.FORWARD )
+			return [ 7/16, 7/16, 8/16, 8/16 ];
+		if ( dir == DIRECTION.UP )
+			return [ 6/16, 6/16, 7/16, 7/16 ];
+		else
+			return [ 6/16, 7/16, 7/16, 8/16 ];
+	}
+};
+
+// Wool
+BLOCK.PUMPKINLIT = {
+	id: 42,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir )
+	{
+		if ( dir == DIRECTION.UP )
+			return [ 9/16, 8/16, 10/16, 9/16 ];
+		else
+			return [ 8/16, 8/16, 9/16, 9/16 ];
+	}
+};
+
+// Wool
+BLOCK.NETHERRACK = {
+	id: 43,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 7/16, 6/16, 8/16, 7/16 ]; }
+};
+
+// Wool
+BLOCK.SOULSAND = {
+	id: 44,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 8/16, 6/16, 9/16, 7/16 ]; }
+};
+
+// Wool
+BLOCK.GLOWSTONE = {
+	id: 45,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 9/16, 6/16, 10/16, 7/16 ]; }
+};
+
+// Wool
+BLOCK.SANDSTONE = {
+	id: 46,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir )
+	{
+		if ( dir == DIRECTION.UP )
+			return [ 0/16, 11/16, 1/16, 12/16 ];
+		if ( dir == DIRECTION.DOWN )
+			return [ 0/16, 13/16, 1/16, 14/16 ];
+		else
+			return [ 0/16, 12/16, 1/16, 13/16 ];
+	}
+};
+
+// Wool
+BLOCK.SANDSTONE2 = {
+	id: 47,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir )
+	{
+		if ( dir == DIRECTION.UP )
+			return [ 0/16, 11/16, 1/16, 12/16 ];
+		if ( dir == DIRECTION.DOWN )
+			return [ 0/16, 13/16, 1/16, 14/16 ];
+		else
+			return [ 5/16, 14/16, 6/16, 15/16 ];
+	}
+};
+
+// Wool
+BLOCK.SANDSTONE3 = {
+	id: 48,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir )
+	{
+		if ( dir == DIRECTION.UP )
+			return [ 0/16, 11/16, 1/16, 12/16 ];
+		if ( dir == DIRECTION.DOWN )
+			return [ 0/16, 13/16, 1/16, 14/16 ];
+		else
+			return [ 6/16, 14/16, 7/16, 15/16 ];
+	}
+};
+
+// Wool
+BLOCK.ENDSTONE = {
+	id: 49,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 15/16, 10/16, 16/16, 11/16 ]; }
+};
+
+// Wool
+BLOCK.RLAMP = {
+	id: 50,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 3/16, 13/16, 4/16, 14/16 ]; }
+};
+
+// Wool
+BLOCK.RLAMP1 = {
+	id: 51,
+	spawnable: true,
+	transparent: false,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 4/16, 13/16, 5/16, 14/16 ]; }
+};
+
+// Wool
+BLOCK.LEAVES = {
+	id: 52,
+	spawnable: true,
+	transparent: true,
+	selflit: false,
+	gravity: false,
+	fluid: false,
+	texture: function( world, lightmap, lit, x, y, z, dir ) { return [ 8/16, 5/16, 9/16, 6/16 ]; }
 };
 
 // fromId( id )

@@ -55,46 +55,85 @@ Player.prototype.setInputCanvas = function( id )
 	var t = this;
 	document.onkeydown = function( e ) { if ( e.target.tagName != "INPUT" ) { t.onKeyEvent( e.keyCode, true ); return false; } }
 	document.onkeyup = function( e ) { if ( e.target.tagName != "INPUT" ) { t.onKeyEvent( e.keyCode, false ); return false; } }
-	canvas.onmousedown = function( e ) { t.onMouseEvent( e.clientX, e.clientY, MOUSE.DOWN, e.which == 3 ); return false; }
-	canvas.onmouseup = function( e ) { t.onMouseEvent( e.clientX, e.clientY, MOUSE.UP, e.which == 3 ); return false; }
-	canvas.onmousemove = function( e ) { t.onMouseEvent( e.clientX, e.clientY, MOUSE.MOVE, e.which == 3 ); return false; }
+	canvas.onmousedown = function( e ) { t.onMouseEvent( e.clientX, e.clientY, MOUSE.DOWN, e ); return false; }
+	canvas.onmouseup = function( e ) { t.onMouseEvent( e.clientX, e.clientY, MOUSE.UP, e ); return false; }
+	canvas.onmousemove = function( e ) { t.onMouseEvent( e.clientX, e.clientY, MOUSE.MOVE, e ); return false; }
 }
 
 // setMaterialSelector( id )
 //
 // Sets the table with the material selectors.
 
+//Player.prototype.setMaterialSelector = function( id )
+//{
+//	var tableRow = document.getElementById( id ).getElementsByTagName( "tr" )[0];
+//	var texOffset = 0;
+//
+//	for ( var mat in BLOCK )
+//	{
+//		if ( typeof( BLOCK[mat] ) == "object" && BLOCK[mat].spawnable == true )
+//		{
+//			var selector = document.createElement( "td" );
+//			selector.style.backgroundPosition = texOffset + "px 0px";
+//
+//			var pl = this;
+//			selector.material = BLOCK[mat];
+//			selector.onclick = function()
+//			{
+//				this.style.opacity = "1.0";
+//
+//				pl.prevSelector.style.opacity = null;
+//				pl.prevSelector = this;
+//
+//				pl.buildMaterial = this.material;
+//			}
+//
+//			if ( mat == "DIRT" ) {
+//				this.prevSelector = selector;
+//				selector.style.opacity = "1.0";
+//			}
+//
+//			tableRow.appendChild( selector );
+//			texOffset -= 70;
+//		}
+//	}
+//}
+
 Player.prototype.setMaterialSelector = function( id )
 {
-	var tableRow = document.getElementById( id ).getElementsByTagName( "tr" )[0];
-	var texOffset = 0;
+    var player = this;
+    var table = document.getElementById(id);
+    var row_len = 13;  // the entire inventory is a 13x13 table
 
-	for ( var mat in BLOCK )
-	{
-		if ( typeof( BLOCK[mat] ) == "object" && BLOCK[mat].spawnable == true )
-		{
-			var selector = document.createElement( "td" );
-			selector.style.backgroundPosition = texOffset + "px 0px";
+    var count = 0;
+	for ( var mat in BLOCK ) {
+		if (mat != "AIR" && typeof(BLOCK[mat]) == "object") {
+            var c = count % row_len;
+            var r = Math.floor(count / row_len);
+            if (c == 0) {
+                var row = table.insertRow(r);
+            }
+
+			var selector = row.insertCell(c);
+			selector.style.backgroundPosition = (-c * 48) + "px " + (-r * 48) + "px";
+            selector.title = mat;
 
 			var pl = this;
 			selector.material = BLOCK[mat];
-			selector.onclick = function()
-			{
+			selector.onclick = function() {
 				this.style.opacity = "1.0";
 
 				pl.prevSelector.style.opacity = null;
 				pl.prevSelector = this;
-
 				pl.buildMaterial = this.material;
 			}
 
-			if ( mat == "DIRT" ) {
+			if (mat == "DIRT") {
 				this.prevSelector = selector;
 				selector.style.opacity = "1.0";
 			}
 
-			tableRow.appendChild( selector );
-			texOffset -= 70;
+            count += 1;
 		}
 	}
 }
@@ -125,8 +164,9 @@ Player.prototype.onKeyEvent = function( keyCode, down )
 //
 // Hook for mouse input.
 
-Player.prototype.onMouseEvent = function( x, y, type, rmb )
+Player.prototype.onMouseEvent = function( x, y, type, e )
 {
+	mouseButton = e.which;
 	if ( type == MOUSE.DOWN ) {
 		this.dragStart = { x: x, y: y };
 		this.mouseDown = true;
@@ -134,7 +174,7 @@ Player.prototype.onMouseEvent = function( x, y, type, rmb )
 		this.pitchStart = this.targetPitch = this.angles[0];
 	} else if ( type == MOUSE.UP ) {
 		if ( Math.abs( this.dragStart.x - x ) + Math.abs( this.dragStart.y - y ) < 4 )	
-			this.doBlockAction( x, y, !rmb );
+			this.doBlockAction( x, y, mouseButton );
 
 		this.dragging = false;
 		this.mouseDown = false;
@@ -146,13 +186,22 @@ Player.prototype.onMouseEvent = function( x, y, type, rmb )
 
 		this.canvas.style.cursor = "move";
 	}
+	    if (!down && key == "e") {
+        if (!this.inventory_open && this.eventHandlers["openInventory"]) {
+            this.inventory_open = true;
+            this.eventHandlers.openInventory();
+        } else if (this.inventory_open && this.eventHandlers["closeInventory"]) {
+            this.inventory_open = false;
+            this.eventHandlers.closeInventory();
+        }
+    }
 }
 
 // doBlockAction( x, y )
 //
 // Called to perform an action based on the player's block selection and input.
 
-Player.prototype.doBlockAction = function( x, y, destroy )
+Player.prototype.doBlockAction = function( x, y, mouseButton )
 {
 	var bPos = new Vector( Math.floor( this.pos.x ), Math.floor( this.pos.y ), Math.floor( this.pos.z ) );
 	var block = this.canvas.renderer.pickAt( new Vector( bPos.x - 4, bPos.y - 4, bPos.z - 4 ), new Vector( bPos.x + 4, bPos.y + 4, bPos.z + 4 ), x, y );
@@ -161,9 +210,11 @@ Player.prototype.doBlockAction = function( x, y, destroy )
 	{
 		var obj = this.client ? this.client : this.world;
 		
-		if ( destroy )
+		if ( mouseButton == 1 )
 			obj.setBlock( block.x, block.y, block.z, BLOCK.AIR );
-		else
+		else if ( mouseButton == 2 )
+			this.buildMaterial = this.world.getBlock(block.x, block.y, block.z);
+		else if ( mouseButton == 3 )
 			obj.setBlock( block.x + block.n.x, block.y + block.n.y, block.z + block.n.z, this.buildMaterial );
 	}
 }
@@ -207,12 +258,21 @@ Player.prototype.update = function()
 
 		// Jumping
 		if ( this.keys[" "] && !this.falling )
-			velocity.z = 8;
-
+			velocity.z = 7.5;
+		
+		//Flying
+		if ( this.keys["f"] ) {
+			if ( this.keys[" "] ) {
+				velocity.z = 8;
+			} else {
+				velocity.z = 0;
+			}
+		}
+		
 		// Walking
 		var walkVelocity = new Vector( 0, 0, 0 );
-		if ( !this.falling )
-		{
+		//if ( !this.falling ) // Enable in-air movement
+		//{
 			if ( this.keys["w"] ) {
 				walkVelocity.x += Math.cos( Math.PI / 2 - this.angles[1] );
 				walkVelocity.y += Math.sin( Math.PI / 2 - this.angles[1] );
@@ -229,14 +289,31 @@ Player.prototype.update = function()
 				walkVelocity.x += Math.cos( -Math.PI / 2 + Math.PI / 2 - this.angles[1] );
 				walkVelocity.y += Math.sin( -Math.PI / 2 + Math.PI / 2 - this.angles[1] );
 			}
-		}
+			if ( this.keys["38"] ) {
+				walkVelocity.x += Math.cos( Math.PI / 2 - this.angles[1] );
+				walkVelocity.y += Math.sin( Math.PI / 2 - this.angles[1] );
+			}
+			if ( this.keys["40"] ) {
+				walkVelocity.x += Math.cos( Math.PI + Math.PI / 2 - this.angles[1] );
+				walkVelocity.y += Math.sin( Math.PI + Math.PI / 2 - this.angles[1] );
+			}
+			if ( this.keys["37"] ) {
+				walkVelocity.x += Math.cos( Math.PI / 2 + Math.PI / 2 - this.angles[1] );
+				walkVelocity.y += Math.sin( Math.PI / 2 + Math.PI / 2 - this.angles[1] );
+			}
+			if ( this.keys["39"] ) {
+				walkVelocity.x += Math.cos( -Math.PI / 2 + Math.PI / 2 - this.angles[1] );
+				walkVelocity.y += Math.sin( -Math.PI / 2 + Math.PI / 2 - this.angles[1] );
+			}
+		//}
 		if ( walkVelocity.length() > 0 ) {
 				walkVelocity = walkVelocity.normal();
 				velocity.x = walkVelocity.x * 4;
 				velocity.y = walkVelocity.y * 4;
 		} else {
-			velocity.x /= this.falling ? 1.01 : 1.5;
-			velocity.y /= this.falling ? 1.01 : 1.5;
+			// change the value when falling for less in-air dampening
+			velocity.x /= this.falling ? 1.05 : 1.5;
+			velocity.y /= this.falling ? 1.05 : 1.5;
 		}
 
 		// Resolve collision
