@@ -90,7 +90,7 @@ server.on( "chat", function( client, nickname, msg )
 // Send a welcome message to new clients
 server.on( "join", function( client, nickname )
 {
-	server.sendMessage( "Welcome! Enjoy your stay, " + nickname + "!", client );
+	server.sendMessage( "Welcome to GRAnimated's Webcraft Server, " + nickname + "!", client );
 	server.broadcastMessage( nickname + " joined the game.", client );
 } );
 
